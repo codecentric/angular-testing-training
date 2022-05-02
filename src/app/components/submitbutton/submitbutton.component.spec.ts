@@ -54,7 +54,7 @@ describe('SubmitbuttonComponent', () => {
     expect(button.nativeElement.innerHTML).toEqual('click me')
   })
 
-  it('emit an clicked event on click', () => {
+  it('emits a clicked event on click', () => {
     let clicked = false
     component.clicked.subscribe(() => clicked = true)
 
