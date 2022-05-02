@@ -1,12 +1,8 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {SubmitbuttonComponent} from './submitbutton.component';
-import {By} from '@angular/platform-browser';
 import {Component, EventEmitter} from '@angular/core';
-
-function selectElementByDataId(fixture1: ComponentFixture<any>, selector: string) {
-  return fixture1.debugElement.query(By.css('[data-testid="' + selector + '"]'));
-}
+import {selectElementByDataId} from '../../../test';
 
 @Component({
   template: `
@@ -39,7 +35,6 @@ describe('SubmitbuttonComponent', () => {
   });
 
   it('renders a submit button', () => {
-    console.log(fixture.debugElement.nativeElement);
     const button = selectElementByDataId(fixture, 'custom-submit-button')
 
     expect(button.nativeElement.getAttribute('type')).toEqual('submit')
@@ -61,7 +56,8 @@ describe('SubmitbuttonComponent', () => {
     const button = selectElementByDataId(fixture, 'custom-submit-button')
 
     button.nativeElement.click()
-
     expect(clicked).toBeTruthy()
   })
+
+
 });

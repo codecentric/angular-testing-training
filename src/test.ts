@@ -1,11 +1,9 @@
 // This file is required by karma.conf.js and loads recursively all the .spec and framework files
 
 import 'zone.js/testing';
-import { getTestBed } from '@angular/core/testing';
-import {
-  BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting
-} from '@angular/platform-browser-dynamic/testing';
+import {ComponentFixture, getTestBed} from '@angular/core/testing';
+import {BrowserDynamicTestingModule, platformBrowserDynamicTesting} from '@angular/platform-browser-dynamic/testing';
+import {By} from '@angular/platform-browser';
 
 declare const require: {
   context(path: string, deep?: boolean, filter?: RegExp): {
@@ -24,3 +22,7 @@ getTestBed().initTestEnvironment(
 const context = require.context('./', true, /\.spec\.ts$/);
 // And load the modules.
 context.keys().map(context);
+
+export function selectElementByDataId(fixture1: ComponentFixture<any>, selector: string) {
+  return fixture1.debugElement.query(By.css('[data-testid="' + selector + '"]'));
+}
