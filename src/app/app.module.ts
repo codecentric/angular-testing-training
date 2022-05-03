@@ -7,6 +7,7 @@ import { SearchfieldComponent } from './components/searchfield/searchfield.compo
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CharacterComponent } from './components/character/character.component';
+import { MoreCharsButtonsetComponent } from './components/more-chars-buttonset/more-chars-buttonset.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { CharacterComponent } from './components/character/character.component';
     SubmitbuttonComponent,
     SearchfieldComponent,
     CharacterComponent,
+    MoreCharsButtonsetComponent,
   ],
   imports: [BrowserModule, ReactiveFormsModule, HttpClientModule],
   providers: [],

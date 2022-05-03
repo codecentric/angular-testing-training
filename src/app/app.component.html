@@ -2,13 +2,12 @@
   <div>
     <app-searchfield (submitted)="onSearch($event)"></app-searchfield>
   </div>
-  <div *ngIf="moreCharsAvailable">
-    <div>There's more!</div>
-    <div class="grid">
-      <button [disabled]="!prevLink" (click)="fetchPrev()">Prev page</button>
-      <button [disabled]="!nextLink" (click)="fetchNext()">Next page</button>
-    </div>
-  </div>
+  <app-more-chars-buttonset
+    *ngIf="moreCharsAvailable"
+    [info]="currentPage!.info!"
+    (fetchNext)="fetchNext()"
+    (fetchPrev)="fetchPrev()"
+  ></app-more-chars-buttonset>
   <div *ngIf="currentPage === undefined">
     No results. Try searching for 'rick'...
   </div>
@@ -18,11 +17,10 @@
       [char]="char"
     ></app-character>
   </div>
-  <div *ngIf="moreCharsAvailable">
-    <div>There's more!</div>
-    <div class="grid">
-      <button [disabled]="!prevLink" (click)="fetchPrev()">Prev page</button>
-      <button [disabled]="!nextLink" (click)="fetchNext()">Next page</button>
-    </div>
-  </div>
+  <app-more-chars-buttonset
+    *ngIf="moreCharsAvailable"
+    [info]="currentPage!.info!"
+    (fetchNext)="fetchNext()"
+    (fetchPrev)="fetchPrev()"
+  ></app-more-chars-buttonset>
 </main>

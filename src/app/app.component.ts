@@ -11,7 +11,7 @@ export class AppComponent {
 
   constructor(private characterService: CharacterService) {}
 
-  currentPage: undefined | Info<Character[]>;
+  currentPage: undefined | Page<Character[]>;
 
   onSearch(name: string) {
     console.log(name);
@@ -37,14 +37,6 @@ export class AppComponent {
 
   get moreCharsAvailable() {
     return this.currentPage?.info?.next || this.currentPage?.info?.prev;
-  }
-
-  get nextLink() {
-    return this.currentPage?.info?.next;
-  }
-
-  get prevLink() {
-    return this.currentPage?.info?.prev;
   }
 
   get charactersOnPage() {

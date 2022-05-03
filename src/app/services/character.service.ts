@@ -8,12 +8,12 @@ export class CharacterService {
   constructor(private httpClient: HttpClient) {}
 
   searchForCharacter(name: string) {
-    return this.httpClient.get<Info<Character[]>>(
+    return this.httpClient.get<Page<Character[]>>(
       `https://rickandmortyapi.com/api/character/?name=${name}`
     );
   }
 
   getPage(url: string) {
-    return this.httpClient.get<Info<Character[]>>(url);
+    return this.httpClient.get<Page<Character[]>>(url);
   }
 }
