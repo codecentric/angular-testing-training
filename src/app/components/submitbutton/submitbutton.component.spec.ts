@@ -8,6 +8,7 @@ import { selectElementByDataId } from '../../../test';
   template: ` <app-submitbutton
     [text]="text"
     (clicked)="onClicked()"
+    [disabled]="disabled"
   ></app-submitbutton>`,
 })
 class TestHostComponent {
@@ -48,7 +49,7 @@ describe('SubmitbuttonComponent', () => {
 
     const button = selectElementByDataId(fixture, 'custom-submit-button');
 
-    expect(button.nativeElement.innerHTML).toEqual('click me');
+    expect(button.nativeElement.innerText).toEqual('click me');
   });
 
   it('emits a clicked event on click', () => {
@@ -61,5 +62,13 @@ describe('SubmitbuttonComponent', () => {
     expect(clicked).toBeTruthy();
   });
 
-  it('can be disabled by setting disabled to true', () => {});
+  it('can be disabled by setting disabled to true', () => {
+    component.disabled = true;
+    fixture.detectChanges();
+
+    const button = selectElementByDataId(fixture, 'custom-submit-button');
+    console.log(button.nativeElement);
+
+    expect(button.nativeElement.getAttribute('disabled')).not.toBeNull();
+  });
 });

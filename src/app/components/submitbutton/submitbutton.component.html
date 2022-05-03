@@ -2,6 +2,7 @@
   type="submit"
   data-testid="custom-submit-button"
   (click)="clicked.emit()"
+  [disabled]="disabled"
 >
   {{ text }}
 </button>

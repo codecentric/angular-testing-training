@@ -9,6 +9,9 @@ export class SubmitbuttonComponent {
   @Input()
   text!: string;
 
+  @Input()
+  disabled = false;
+
   @Output()
   clicked = new EventEmitter<void>();
 }
