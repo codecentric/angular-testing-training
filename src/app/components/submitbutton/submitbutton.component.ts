@@ -1,9 +1,9 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-submitbutton',
   templateUrl: './submitbutton.component.html',
-  styleUrls: ['./submitbutton.component.css']
+  styleUrls: ['./submitbutton.component.css'],
 })
 export class SubmitbuttonComponent {
   @Input()
@@ -11,5 +11,4 @@ export class SubmitbuttonComponent {
 
   @Output()
   clicked = new EventEmitter<void>();
-
 }
