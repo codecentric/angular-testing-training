@@ -15,6 +15,14 @@ describe('CharacterComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CharacterComponent);
     component = fixture.componentInstance;
+    component.char = {
+      origin: {
+        name: 'Earth',
+      },
+      name: 'Rick',
+      status: 'Alive',
+      type: 'Human',
+    } as Character;
     fixture.detectChanges();
   });
 
