@@ -8,9 +8,8 @@ describe('MoreCharsButtonsetComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MoreCharsButtonsetComponent ]
-    })
-    .compileComponents();
+      declarations: [MoreCharsButtonsetComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
