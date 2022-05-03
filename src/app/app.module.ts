@@ -5,10 +5,11 @@ import { AppComponent } from './app.component';
 import { SubmitbuttonComponent } from './components/submitbutton/submitbutton.component';
 import { SearchfieldComponent } from './components/searchfield/searchfield.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent, SubmitbuttonComponent, SearchfieldComponent],
-  imports: [BrowserModule, ReactiveFormsModule],
+  imports: [BrowserModule, ReactiveFormsModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],
 })
