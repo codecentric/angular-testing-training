@@ -1,0 +1,7 @@
+.character {
+  display: inline-block;
+  max-width: 250px;
+}
+.caption {
+  font-size: 0.7rem;
+}
