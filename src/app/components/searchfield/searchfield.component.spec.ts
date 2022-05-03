@@ -4,6 +4,16 @@ import { SearchfieldComponent } from './searchfield.component';
 import { selectElementByDataId } from '../../../test';
 import { SubmitbuttonComponent } from '../submitbutton/submitbutton.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DebugElement } from '@angular/core';
+
+function typeInto(inputElement: DebugElement, value: string) {
+  inputElement.nativeElement.value = value;
+  inputElement.triggerEventHandler('input', {
+    target: {
+      value,
+    },
+  });
+}
 
 describe('SearchfieldComponent', () => {
   let component: SearchfieldComponent;
@@ -30,12 +40,9 @@ describe('SearchfieldComponent', () => {
 
   it('emits the submitted value', () => {
     const inputElement = selectElementByDataId(fixture, 'search-input');
-    inputElement.nativeElement.value = 'search value';
-    inputElement.triggerEventHandler('input', {
-      target: {
-        value: 'search value',
-      },
-    });
+    typeInto(inputElement, 'search value');
+    fixture.detectChanges();
+
     const submitButton = selectElementByDataId(fixture, 'custom-submit-button');
 
     let submittedValue: string | undefined;
@@ -49,12 +56,10 @@ describe('SearchfieldComponent', () => {
   it('clears the search field after submit', () => {
     let inputElement = selectElementByDataId(fixture, 'search-input');
 
-    inputElement.nativeElement.value = 'search value';
-    inputElement.triggerEventHandler('input', {
-      target: {
-        value: 'search value',
-      },
-    });
+    let value = 'search value';
+    typeInto(inputElement, value);
+    fixture.detectChanges();
+
     const submitButton = selectElementByDataId(fixture, 'custom-submit-button');
     submitButton.nativeElement.click();
 
@@ -63,6 +68,7 @@ describe('SearchfieldComponent', () => {
 
   it('disables the submit button when the input is empty', () => {
     const submitButton = selectElementByDataId(fixture, 'custom-submit-button');
+    console.log(submitButton);
 
     expect(submitButton.nativeElement.getAttribute('disabled')).not.toBeNull();
   });

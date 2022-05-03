@@ -1,10 +1,11 @@
 <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
   <label for="name">Search for</label>
   <input
+    required
     id="name"
     data-testid="search-input"
     type="text"
     formControlName="searchValue"
   />
-  <app-submitbutton text="submit"></app-submitbutton>
+  <app-submitbutton text="submit" [disabled]="formIsInvalid"></app-submitbutton>
 </form>
