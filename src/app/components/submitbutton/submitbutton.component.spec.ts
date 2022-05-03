@@ -67,7 +67,6 @@ describe('SubmitbuttonComponent', () => {
     fixture.detectChanges();
 
     const button = selectElementByDataId(fixture, 'custom-submit-button');
-    console.log(button.nativeElement);
 
     expect(button.nativeElement.getAttribute('disabled')).not.toBeNull();
   });

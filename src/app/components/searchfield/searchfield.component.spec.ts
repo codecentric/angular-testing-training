@@ -68,7 +68,6 @@ describe('SearchfieldComponent', () => {
 
   it('disables the submit button when the input is empty', () => {
     const submitButton = selectElementByDataId(fixture, 'custom-submit-button');
-    console.log(submitButton);
 
     expect(submitButton.nativeElement.getAttribute('disabled')).not.toBeNull();
   });
