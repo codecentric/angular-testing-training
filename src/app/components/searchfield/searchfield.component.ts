@@ -11,16 +11,9 @@ export class SearchfieldComponent {
     searchValue: new FormControl('', [Validators.required]),
   });
 
-  @Output()
-  submitted = new EventEmitter<string>();
+  onSubmit() {}
 
   get formIsInvalid() {
-    return !this.searchForm.valid;
-  }
-
-  onSubmit() {
-    this.submitted.emit(this.searchForm.value.searchValue);
-    this.searchForm.setValue({ searchValue: '' });
-    this.searchForm.reset();
+    return false;
   }
 }
