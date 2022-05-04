@@ -1,13 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
-import { SearchfieldComponent } from './components/searchfield/searchfield.component';
-import { SubmitbuttonComponent } from './components/submitbutton/submitbutton.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AppComponent, SearchfieldComponent, SubmitbuttonComponent],
+      declarations: [AppComponent],
       imports: [HttpClientModule],
     }).compileComponents();
   });
