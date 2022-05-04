@@ -14,13 +14,10 @@ export class AppComponent {
   currentPage: undefined | Page<Character[]>;
 
   onSearch(name: string) {
-    console.log(name);
-    this.characterService.searchForCharacter(name).subscribe(
-      (result) => (this.currentPage = result),
-      () => {
-        this.currentPage = undefined;
-      }
-    );
+    this.characterService.searchForCharacter(name).subscribe({
+      next: (value) => (this.currentPage = value),
+      error: () => (this.currentPage = undefined),
+    });
   }
 
   fetchNext() {
@@ -35,8 +32,10 @@ export class AppComponent {
       .subscribe((result) => (this.currentPage = result));
   }
 
-  get moreCharsAvailable() {
-    return this.currentPage?.info?.next || this.currentPage?.info?.prev;
+  get moreCharsAvailable(): boolean {
+    return Boolean(
+      this.currentPage?.info?.next || this.currentPage?.info?.prev
+    );
   }
 
   get charactersOnPage() {
