@@ -29,13 +29,13 @@ describe('AppComponent', () => {
   const mockObject: any = Object.seal({ foo: 'bar' });
 
   it('should query for a given character', () => {
-    spyOn(mockCharacterService, 'searchForCharacter').and.returnValue(
-      of(mockObject)
-    );
+    jest
+      .spyOn(mockCharacterService, 'searchForCharacter')
+      .mockReturnValue(of(mockObject));
 
     component.onSearch('rick');
 
-    expect(mockCharacterService.searchForCharacter).toHaveBeenCalledOnceWith(
+    expect(mockCharacterService.searchForCharacter).toHaveBeenCalledWith(
       'rick'
     );
     expect(component.currentPage).toEqual(mockObject);
@@ -52,10 +52,10 @@ describe('AppComponent', () => {
       },
     };
 
-    spyOn(mockCharacterService, 'getPage').and.returnValue(of(mockObject));
+    jest.spyOn(mockCharacterService, 'getPage').mockReturnValue(of(mockObject));
 
     component.fetchNext();
-    expect(mockCharacterService.getPage).toHaveBeenCalledOnceWith(next);
+    expect(mockCharacterService.getPage).toHaveBeenCalledWith(next);
     expect(component.currentPage).toEqual(mockObject);
   });
 
@@ -70,17 +70,17 @@ describe('AppComponent', () => {
       },
     };
 
-    spyOn(mockCharacterService, 'getPage').and.returnValue(of(mockObject));
+    jest.spyOn(mockCharacterService, 'getPage').mockReturnValue(of(mockObject));
 
     component.fetchPrev();
-    expect(mockCharacterService.getPage).toHaveBeenCalledOnceWith(prev);
+    expect(mockCharacterService.getPage).toHaveBeenCalledWith(prev);
     expect(component.currentPage).toEqual(mockObject);
   });
 
   it('returns false for "moreCharactersAvailable" if currentPage is undefined', () => {
     component.currentPage = undefined;
 
-    expect(component.moreCharsAvailable).toBeFalse();
+    expect(component.moreCharsAvailable).toEqual(false);
   });
   it('returns true for "moreCharactersAvailable" if currentPage has next page', () => {
     component.currentPage = {
@@ -89,8 +89,9 @@ describe('AppComponent', () => {
       } as Info,
     };
 
-    expect(component.moreCharsAvailable).toBeTrue();
+    expect(component.moreCharsAvailable).toEqual(true);
   });
+
   it('returns true for "moreCharactersAvailable"  if currentPage has prev page', () => {
     component.currentPage = {
       info: {
@@ -98,7 +99,7 @@ describe('AppComponent', () => {
       } as Info,
     };
 
-    expect(component.moreCharsAvailable).toBeTrue();
+    expect(component.moreCharsAvailable).toEqual(true);
   });
 
   it('returns empty array of characters if currentPage is undefined', () => {
