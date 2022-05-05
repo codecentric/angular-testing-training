@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SearchfieldComponent } from './searchfield.component';
-import { selectElementByDataId } from '../../../test';
+import { selectElementByDataId } from '../../../testUtils';
 import { SubmitbuttonComponent } from '../submitbutton/submitbutton.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DebugElement } from '@angular/core';

@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SubmitbuttonComponent } from './submitbutton.component';
 import { Component, EventEmitter } from '@angular/core';
-import { selectElementByDataId } from '../../../test';
+import { selectElementByDataId } from '../../../testUtils';
 
 @Component({
   template: ` <app-submitbutton
@@ -49,7 +49,7 @@ describe('SubmitbuttonComponent', () => {
 
     const button = selectElementByDataId(fixture, 'custom-submit-button');
 
-    expect(button.nativeElement.innerText).toEqual('click me');
+    expect(button.nativeElement.innerHTML.trim()).toEqual('click me');
   });
 
   it('emits a clicked event on click', () => {
