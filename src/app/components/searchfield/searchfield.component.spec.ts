@@ -1,10 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { SearchfieldComponent } from './searchfield.component';
-import { selectElementByDataId } from '../../../testUtils';
-import { SubmitbuttonComponent } from '../submitbutton/submitbutton.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { DebugElement } from '@angular/core';
+import {SearchfieldComponent} from './searchfield.component';
+import {SubmitbuttonComponent} from '../submitbutton/submitbutton.component';
+import {ReactiveFormsModule} from '@angular/forms';
+import {DebugElement} from '@angular/core';
+import {render, RenderResult, screen, waitFor} from "@testing-library/angular";
+import userEvent from "@testing-library/user-event";
 
 function typeInto(inputElement: DebugElement, value: string) {
   inputElement.nativeElement.value = value;
@@ -16,59 +15,56 @@ function typeInto(inputElement: DebugElement, value: string) {
 }
 
 describe('SearchfieldComponent', () => {
-  let component: SearchfieldComponent;
-  let fixture: ComponentFixture<SearchfieldComponent>;
+
+  let renderResult: RenderResult<SearchfieldComponent>
+
+  const submitValue = jest.fn()
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [SearchfieldComponent, SubmitbuttonComponent],
-      imports: [ReactiveFormsModule],
-    }).compileComponents();
+    renderResult = await render(SearchfieldComponent, {
+      componentProperties: {
+        submitted: {
+          emit: submitValue
+        }
+      } as any,
+      declarations: [SubmitbuttonComponent],
+      imports: [ReactiveFormsModule]
+    });
+
+
   });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(SearchfieldComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
 
   it('renders an input field of type text', () => {
-    const inputElement = selectElementByDataId(fixture, 'search-input');
+    let input = screen.getByLabelText('Search for');
 
-    expect(inputElement.nativeElement.getAttribute('type')).toEqual('text');
+    expect(input.getAttribute('type')).toEqual('text');
   });
 
   it('emits the submitted value', () => {
-    const inputElement = selectElementByDataId(fixture, 'search-input');
-    typeInto(inputElement, 'search value');
-    fixture.detectChanges();
+    let input = screen.getByLabelText('Search for');
 
-    const submitButton = selectElementByDataId(fixture, 'custom-submit-button');
+    userEvent.type(input, 'search value')
 
-    let submittedValue: string | undefined;
-    component.submitted.subscribe((value) => (submittedValue = value));
+    userEvent.click(screen.getByTestId('custom-submit-button'))
 
-    submitButton.nativeElement.click();
-
-    expect(submittedValue).toEqual('search value');
+    waitFor(() => expect(submitValue).toHaveBeenCalledWith('search value'))
   });
-
+  //
   it('clears the search field after submit', () => {
-    let inputElement = selectElementByDataId(fixture, 'search-input');
+    let input = screen.getByLabelText('Search for');
 
     let value = 'search value';
-    typeInto(inputElement, value);
-    fixture.detectChanges();
+    userEvent.type(input, value)
 
-    const submitButton = selectElementByDataId(fixture, 'custom-submit-button');
-    submitButton.nativeElement.click();
+    userEvent.click(screen.getByTestId('custom-submit-button'))
 
-    expect(inputElement.nativeElement.value).toEqual('');
+    expect(input).toHaveDisplayValue('')
   });
 
   it('disables the submit button when the input is empty', () => {
-    const submitButton = selectElementByDataId(fixture, 'custom-submit-button');
+    const submitButton = screen.getByTestId('custom-submit-button');
 
-    expect(submitButton.nativeElement.getAttribute('disabled')).not.toBeNull();
+    expect(submitButton).toBeDisabled();
   });
 });
