@@ -1,46 +1,38 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { DogComponent } from './dog.component';
-import { By } from '@angular/platform-browser';
+import { render, screen, waitFor } from '@testing-library/angular';
+import userEvent from '@testing-library/user-event';
 
 describe('DogComponent', () => {
-  let component: DogComponent;
-  let fixture: ComponentFixture<DogComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [DogComponent],
-    }).compileComponents();
-  });
-
   const expectedDog: Dog = {
     name: 'Bello',
     image: 'https://dogapi/fido.jpg',
     bark: 'Woof',
   };
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(DogComponent);
+  const onBark = jest.fn();
 
-    component = fixture.componentInstance;
-    component.dog = expectedDog;
-    fixture.detectChanges();
+  beforeEach(async () => {
+    await render(DogComponent, {
+      componentProperties: {
+        dog: expectedDog,
+        onBark: {
+          emit: onBark,
+        } as any,
+      },
+    });
   });
 
   it('shows the image taken from the url of the passed dog', () => {
-    const image = fixture.debugElement.query(By.css('[alt="Image of Bello"]'));
+    const image = screen.getByAltText('Image of Bello');
 
-    expect(image.nativeElement.getAttribute('src')).toEqual(expectedDog.image);
+    expect(image).toHaveAttribute('src', expectedDog.image);
   });
 
   it('shows a "bark" button that emits the passed dogs bark', () => {
-    const button = fixture.debugElement.query(By.css('button'));
-    let actualBark: string | undefined;
-    component.onBark.subscribe((bark) => (actualBark = bark));
+    const button = screen.getByRole('button', { name: /bark!/i });
 
-    button.nativeElement.click();
+    userEvent.click(button);
 
-    expect(button.nativeElement.innerHTML).toEqual('Bark!');
-    expect(actualBark).toEqual(expectedDog.bark);
+    waitFor(() => expect(onBark).toHaveBeenCalledWith(expectedDog.bark));
   });
 });
