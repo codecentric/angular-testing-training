@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CharacterService } from './services/character.service';
 
 @Component({
@@ -7,38 +7,30 @@ import { CharacterService } from './services/character.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'angular-testing-training';
+  title = 'doggo-world';
 
-  constructor(private characterService: CharacterService) {}
+  dogSays: undefined | string;
 
-  currentPage: undefined | Page<Character[]>;
+  dogs: Dog[] = [
+    {
+      name: 'Fido',
+      image: 'https://images.dog.ceo/breeds/bulldog-french/n02108915_2980.jpg',
+      bark: 'Woof!',
+    },
+    {
+      name: 'Barney',
+      image: 'https://images.dog.ceo/breeds/spaniel-sussex/n02102480_6167.jpg',
+      bark: 'Barkbark!',
+    },
+    {
+      name: 'Jojo',
+      image:
+        'https://images.dog.ceo/breeds/retriever-golden/n02099601_8429.jpg',
+      bark: 'Grrrwoof!',
+    },
+  ];
 
-  onSearch(name: string) {
-    this.characterService.searchForCharacter(name).subscribe({
-      next: (value) => (this.currentPage = value),
-      error: () => (this.currentPage = undefined),
-    });
-  }
-
-  fetchNext() {
-    this.characterService
-      .getPage(this.currentPage!.info!.next!)
-      .subscribe((result) => (this.currentPage = result));
-  }
-
-  fetchPrev() {
-    this.characterService
-      .getPage(this.currentPage!.info!.prev!)
-      .subscribe((result) => (this.currentPage = result));
-  }
-
-  get moreCharsAvailable(): boolean {
-    return Boolean(
-      this.currentPage?.info?.next || this.currentPage?.info?.prev
-    );
-  }
-
-  get charactersOnPage() {
-    return this.currentPage === undefined ? [] : this.currentPage.results;
+  bark(bark: string) {
+    this.dogSays = `Dog says: "${bark}"`;
   }
 }

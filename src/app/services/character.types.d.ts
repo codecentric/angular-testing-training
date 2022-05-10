@@ -36,3 +36,9 @@ interface CharacterLocation {
   name: string;
   url: string;
 }
+
+interface Dog {
+  name: string;
+  image: string;
+  bark: string;
+}

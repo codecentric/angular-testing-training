@@ -6,6 +6,8 @@ import { SubmitbuttonComponent } from './components/submitbutton/submitbutton.co
 import { CharacterService } from './services/character.service';
 import { of } from 'rxjs';
 import { ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { DogComponent } from './components/dog/dog.component';
 
 describe('AppComponent', () => {
   let mockCharacterService: CharacterService;
@@ -14,102 +16,53 @@ describe('AppComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AppComponent, SearchfieldComponent, SubmitbuttonComponent],
+      declarations: [AppComponent, DogComponent],
       imports: [HttpClientModule, ReactiveFormsModule],
     }).compileComponents();
 
     mockCharacterService = TestBed.inject(CharacterService);
   });
 
+  const expectedDogs: Dog[] = [
+    {
+      name: 'Dennis',
+      image: 'https://doggos.com/dennis',
+      bark: 'awoof',
+    },
+    {
+      name: 'Kevin',
+      image: 'https://doggos.com/kevin',
+      bark: 'wooof',
+    },
+  ];
+
   beforeEach(() => {
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
+    component.dogs = expectedDogs;
     fixture.detectChanges();
   });
+
   const mockObject: any = Object.seal({ foo: 'bar' });
 
-  it('should query for a given character', () => {
-    spyOn(mockCharacterService, 'searchForCharacter').and.returnValue(
-      of(mockObject)
-    );
+  it('shows a list of dogs', () => {
+    const dogs = fixture.debugElement.queryAll(By.css('app-dog'));
 
-    component.onSearch('rick');
-
-    expect(mockCharacterService.searchForCharacter).toHaveBeenCalledOnceWith(
-      'rick'
-    );
-    expect(component.currentPage).toEqual(mockObject);
+    expect(dogs.length).toEqual(2);
   });
 
-  it('fetches the next link from the current page', () => {
-    let next = 'mockUrl';
-    component.currentPage = {
-      info: {
-        next,
-        count: 1,
-        pages: 1,
-        prev: null,
-      },
-    };
+  it('lets a dog bark its bark when clicking the respective bark button', () => {
+    const dogs = fixture.debugElement.queryAll(By.css('app-dog'));
+    const barkButton = dogs[0].query(By.css('button'));
 
-    spyOn(mockCharacterService, 'getPage').and.returnValue(of(mockObject));
+    barkButton.nativeElement.click();
+    fixture.detectChanges();
 
-    component.fetchNext();
-    expect(mockCharacterService.getPage).toHaveBeenCalledOnceWith(next);
-    expect(component.currentPage).toEqual(mockObject);
-  });
+    const bark = fixture.debugElement.query(By.css('p[data-testid="bark"]'));
 
-  it('fetches previous link from the current page', () => {
-    let prev = 'mockUrl';
-    component.currentPage = {
-      info: {
-        next: null,
-        count: 1,
-        pages: 1,
-        prev,
-      },
-    };
+    const expectedDog = expectedDogs[0];
+    const expectedText = `Dog says: "${expectedDog.bark}"`;
 
-    spyOn(mockCharacterService, 'getPage').and.returnValue(of(mockObject));
-
-    component.fetchPrev();
-    expect(mockCharacterService.getPage).toHaveBeenCalledOnceWith(prev);
-    expect(component.currentPage).toEqual(mockObject);
-  });
-
-  it('returns false for "moreCharactersAvailable" if currentPage is undefined', () => {
-    component.currentPage = undefined;
-
-    expect(component.moreCharsAvailable).toBeFalse();
-  });
-  it('returns true for "moreCharactersAvailable" if currentPage has next page', () => {
-    component.currentPage = {
-      info: {
-        next: 'someUrl',
-      } as Info,
-    };
-
-    expect(component.moreCharsAvailable).toBeTrue();
-  });
-  it('returns true for "moreCharactersAvailable"  if currentPage has prev page', () => {
-    component.currentPage = {
-      info: {
-        prev: 'someUrl',
-      } as Info,
-    };
-
-    expect(component.moreCharsAvailable).toBeTrue();
-  });
-
-  it('returns empty array of characters if currentPage is undefined', () => {
-    component.currentPage = undefined;
-
-    expect(component.charactersOnPage).toEqual([]);
-  });
-
-  it('returns array of characters if currentPage is defined and has characters', () => {
-    component.currentPage = mockObject;
-
-    expect(component.charactersOnPage).toEqual(mockObject.results);
+    expect(bark.nativeElement.innerText).toEqual(expectedText);
   });
 });

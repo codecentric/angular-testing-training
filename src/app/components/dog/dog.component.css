@@ -1,0 +1,7 @@
+img {
+  max-width: 100px;
+}
+:host {
+  display: flex;
+  justify-content: space-between;
+}
