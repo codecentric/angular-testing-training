@@ -11,23 +11,16 @@ function findInputByLabeltext(
   const wantedLabel = labels.find((label) =>
     label.nativeElement.innerHTML.includes(labelText)
   );
-  expect(wantedLabel)
-    .withContext('could not find label with text ' + labelText)
-    .toBeDefined();
+
+  expect(wantedLabel).toBeDefined();
   const forValue = wantedLabel!.nativeElement.getAttribute('for');
 
-  expect(forValue)
-    .withContext('label with text ' + labelText + ' has no "for" value')
-    .not.toBeNull();
+  expect(forValue).not.toBeNull();
   const inputElement = fixture.debugElement.query(
     By.css(`input[id="${forValue}"]`)
   );
 
-  expect(inputElement)
-    .withContext(
-      `did not find input associated with label for labeltext ${labelText}`
-    )
-    .not.toBeNull();
+  expect(inputElement).not.toBeNull();
 
   return inputElement;
 }

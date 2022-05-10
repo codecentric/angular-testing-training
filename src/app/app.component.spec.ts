@@ -63,6 +63,6 @@ describe('AppComponent', () => {
     const expectedDog = expectedDogs[0];
     const expectedText = `Dog says: "${expectedDog.bark}"`;
 
-    expect(bark.nativeElement.innerText).toEqual(expectedText);
+    expect(bark.nativeElement.innerHTML).toEqual(expectedText);
   });
 });

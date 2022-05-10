@@ -40,7 +40,7 @@ describe('DogComponent', () => {
 
     button.nativeElement.click();
 
-    expect(button.nativeElement.innerText).toEqual('Bark!');
+    expect(button.nativeElement.innerHTML).toEqual('Bark!');
     expect(actualBark).toEqual(expectedDog.bark);
   });
 });
